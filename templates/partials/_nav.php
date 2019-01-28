@@ -8,15 +8,16 @@
     <div class="collapse navbar-collapse"   id="navbar-supported-content">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="<?php echo BASE_URL; ?>/IndexController/login">Home <span class="sr-only">  (current)</span></a>
+          <a class="nav-link" href="<?php echo BASE_URL; ?>/PostController/allPost">Home <span class="sr-only">  (current)</span></a>
         </li>
       </ul>
       <?php if(!isset($_SESSION['ownUserData']) && !isset($_SESSION['access_token'])) { ?>
-        <button class="btn btn-outline-info my-2 my-sm-0  btn-design" type="submit"><a href="<?php echo BASE_URL; ?>/IndexController/login">Login</a></button>
-        <button class="btn btn-outline-info my-2 my-sm-0 ml-2   btn-design" type="submit"><a href="<?php echo BASE_URL; ?>/IndexController/signup">Sign Up</a></button>
-      <?php } else if(isset($_SESSION['access_token']) || isset($_SESSION['ownUserData'])) { ?>
-        <button class="btn btn-outline-info my-2 my-sm-0  btn-design" type="submit"><a href="<?php echo BASE_URL; ?>/UserController/logout">Logout</a></button>
-      <?php } ?>
+        <a href="<?php echo BASE_URL; ?>/IndexController/login"><button class="btn btn-outline-light my-2 my-sm-0  btn-design">Login</button></a>
+        <a href="<?php echo BASE_URL; ?>/IndexController/signup"><button class="btn btn-outline-light my-2 my-sm-0 ml-2   btn-design">Sign Up</button></a>
+      <?php } else if(isset($_SESSION['access_token']) || isset($_SESSION['ownUserData'])) {
+        echo '<a href="'.BASE_URL.'/UserController/profile"><button class="btn btn-outline-light m-2 my-sm-0 btn-design">'.$_SESSION['ownUserData'][0]['name'].'</button></a>
+        <a href="'.BASE_URL.'/UserController/logout"><button class="btn btn-outline-light my-2 my-sm-0 btn-design">Logout</button></a>';
+      } ?>
     </div>
   </div>  
 </nav>

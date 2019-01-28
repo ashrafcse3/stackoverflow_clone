@@ -19,7 +19,7 @@
         if (password_verify($password, $result[0]['password'])) {
           if ($result[0]['active'] == 1) {
             $_SESSION['ownUserData'] = $result;
-            header('Location: ' . BASE_URL . '/UserController/profile');
+            header('Location: ' . BASE_URL . '/PostController/allPost');
             exit();
           }
           else {

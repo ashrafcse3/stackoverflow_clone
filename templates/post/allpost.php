@@ -35,7 +35,7 @@
             <div id="vote-text">views</div>
           </div>
           <div class="col-8 border">
-            <div id="vote"><a href="#">'.$post['title'].'</a></div>
+            <div id="vote"><a href="'.BASE_URL.'/PostController/postDetails?id='.$post['id'].'">'.$post['title'].'</a></div>
             <div id="vote-text">
               <a href="#">'.$post['category'].'</a>
               asked by <a href="#">'.$post['user_name'].'</a>

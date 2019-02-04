@@ -238,19 +238,23 @@
         $userModel = $this->load->model('UserModel');
         $cond = "email='$email' AND hash='$hash'";
         if($userModel->getUserData($user_table, $cond)) {
-          header('Location: '.BASE_URL.'/IndexController/changePassword');
+          $this->load->view('user/changepassword');
+          //header('Location: '.BASE_URL.'/IndexController/changePassword');
         }
         else {
           header('Location: '.BASE_URL.'/IndexController/signup');
         }
       }
       else {
-        echo 'your email is not set.';
-        //der('Location: '.BASE_URL.'/IndexController/forgotPassword');
+        header('Location: '.BASE_URL.'/IndexController/forgotPassword');
       }
     }
 
     public function createNewPassword() {
-      
+      if (isset($_POST['check-forgot-submit'])) {
+        
+      } else {
+        header('Location: '.BASE_URL.'/IndexController/login');
+      }
     }
   }

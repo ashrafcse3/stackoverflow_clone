@@ -30,7 +30,7 @@
           <label for="exampleInputConfirmPassword1"><strong>Confirm Password</strong></label>
           <input type="password" class="form-control" name="confirm_password" id="exampleInputConfirmPassword1" placeholder="Confirm Password">
         </div>
-        <button type="submit" class="btn btn-primary mb-4">change password</button>
+        <button type="check-forgot-submit" class="btn btn-primary mb-4">change password</button>
       </form>
     </div>
   </div>

@@ -16,6 +16,38 @@
       $this->load->view('post/allpost', $data);
     }
 
+    public function postDetails() {
+      if (isset($_GET['id'])) {
+        $id = isset($_GET['id']) ? $_GET['id'] : NULL;
+
+        $post_table = 'posts';
+        $user_table = 'users';
+        $category_table = 'categories';
+        $comment_table = 'comments';
+        $answer_table = 'answers';
+        $post_comments = 'post';
+        $answer_comments = 'answer';
+        $postModel = $this->load->model('PostModel');
+
+        $cond = "$post_table.id = $id";
+        $data['post'] = $postModel->getPostData($post_table, $user_table,   $category_table, $cond);
+        
+        $postCommentCond = "$comment_table.source = '$post_comments' AND $comment_table.source_id = $id";
+        $data['postcomments'] = $postModel->getPostCommentData($comment_table, $user_table, $postCommentCond);
+
+        $answerCommentCond = "$comment_table.source = '$answer_comments' AND $answer_table.post_id = $id";
+        $data['answercomments'] = $postModel->getAnswerCommentData($comment_table, $user_table, $answer_table, $answerCommentCond);
+
+        $answerCond = "$answer_table.post_id = $id";
+        $data['answers'] = $postModel->getAnswerData($answer_table, $user_table, $answerCond);
+        //print_r($data);
+        $this->load->view('post/postdetails', $data);
+      }
+      else {
+        header('Location: '.BASE_URL.'/PostController/allPost');
+      }
+    }
+
     public function addPost() {
       if (isset($_SESSION['ownUserData'])) {
         $category_table = 'categories';
@@ -25,7 +57,7 @@
         $this->load->view('post/addpost', $data);
       }
       else {
-        header('Location: '.BASE_URL.'/IndexController/login');
+        header('Location: '.BASE_URL.'/IndexController/login?location='.urldecode($_SERVER['REQUEST_URI']));
       }
     }
 

@@ -41,10 +41,10 @@
           <label for="exampleInputPassword1"><strong>Password</strong></label>
           <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn btn-primary mb-3">Login</button>
         <div class="d-flex flex-row-reverse">
           <div class="p-2"><a href="<?php echo BASE_URL; ?>/IndexController/forgotPassword">Forgot password</a></div>
         </div>
+        <button type="submit" class="btn btn-primary mb-3">Login</button>
       </form>
     </div>
     <div class="col-md-1 d-flex justify-content-center align-items-center">

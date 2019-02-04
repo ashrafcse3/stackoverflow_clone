@@ -192,12 +192,13 @@
       $cond = "email='$email'";
       $result = $userModel->getUserData($user_table, $cond);
       if (count($result) == 1) {
-        $hash = $this->sendForgotPasswordToEmail($result[0]['name'],$email);
-        $data = array('hash' => $hash);
+        $password = $this->sendForgotPasswordToEmail($result[0]['name'],$email);
+        $data = array('password' => password_hash($password, PASSWORD_DEFAULT));
+        echo $password;
         $result1 = $userModel->update($user_table, $data, $cond);
 
         if ($result1 == 1) {
-          $mdata['msg'] = 'Your reset password link sent to your email.';
+          $mdata['msg'] = 'Your reset password is successfull. Check your email.';
           $_SESSION['mdata'] = $mdata;
           header('Location: '.BASE_URL.'/IndexController/forgotPassword');
         }
@@ -216,45 +217,17 @@
 
     public function sendForgotPasswordToEmail($name, $email) {
       global $mailer;
-      $hash = md5(random_int(1, 10000));
-      $link = BASE_URL . "/UserController/checkForgotPasswordToEmail?email=$email&hash=$hash";
+      $password = random_int(1, 1000000);
+      $link = "<h5>Email: $email</h5><br><h5>Password: $password</h5>";
       $senderEmail = 'ashrafcse3@gmail.com';
       $senderName = 'Ashraf';
 
       $message = (new Swift_Message('Forgot Password link'))
           ->setFrom([$senderEmail => $senderName])
           ->setTo([$email => $name])
-          ->setBody("<h1>Here is your new password creating link:</h1><br><a href=".$link.">$link</a>", 'text/html');
+          ->setBody("<h1>Here is your new password:</h1><br>$link", 'text/html');
       $mailer->send($message);
 
-      return $hash;
-    }
-
-    public function checkForgotPasswordToEmail() {
-      if (isset($_GET['email']) && isset($_GET['hash'])) {
-        $email = isset($_GET['email']) ? $_GET['email'] : NULL;
-        $hash = isset($_GET['hash']) ? $_GET['hash'] : NULL;
-        $user_table = 'users';
-        $userModel = $this->load->model('UserModel');
-        $cond = "email='$email' AND hash='$hash'";
-        if($userModel->getUserData($user_table, $cond)) {
-          $this->load->view('user/changepassword');
-          //header('Location: '.BASE_URL.'/IndexController/changePassword');
-        }
-        else {
-          header('Location: '.BASE_URL.'/IndexController/signup');
-        }
-      }
-      else {
-        header('Location: '.BASE_URL.'/IndexController/forgotPassword');
-      }
-    }
-
-    public function createNewPassword() {
-      if (isset($_POST['check-forgot-submit'])) {
-        
-      } else {
-        header('Location: '.BASE_URL.'/IndexController/login');
-      }
+      return $password;
     }
   }

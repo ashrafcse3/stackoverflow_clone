@@ -118,4 +118,48 @@
         echo 'submit not set.';
       }
     }
+
+    public function addCommentFromPost() {
+      $user_id = $_SESSION['ownUserData'][0]['id'];
+      $source = 'post';
+      $source_id = isset($_POST['postid']) ? $_POST['postid'] : NULL;
+      $comment = isset($_POST['post-comment-box']) ? $_POST['post-comment-box'] : NULL;
+      $time = time();
+      echo $time;
+      $error = [];
+      $mdata = [];
+      $comment_table = 'comments';
+      $postModel = $this->load->model('PostModel');
+
+      if (empty($comment)) {
+        $error[] = 'You have to write a comment.';
+      }
+
+      if (empty($error)) {
+        $data = array(
+          'user_id' => $user_id,
+          'source'  => $source,
+          'source_id'   => $source_id,
+          'description' => $comment,
+          'time'    => $time
+        );
+        $result = $postModel->insert($comment_table, $data);
+        if ($result == 1) {
+          $mdata['msg'] ='Your comment is inserted.';
+          $_SESSION['mdata'] = $mdata;
+          print_r($mdata);
+          //header('Location: '.BASE_URL.'/PostController/index');
+        }
+        else {
+          $error[] = 'Your post is not inserted. Some problem has occurred.';
+          $_SESSION['error'] = $error;
+          //header('Location: '.BASE_URL.'/PostController/addPost');
+        }
+      }
+      else {
+        $_SESSION['error'] = $error;
+        echo 'i am on error';
+        //header('Location: '.BASE_URL."/PostController/postDetails?id=$source_id");
+      }
+    }
   }

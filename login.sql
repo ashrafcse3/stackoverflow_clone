@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2019 at 09:11 PM
+-- Generation Time: Feb 12, 2019 at 05:16 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -76,7 +76,7 @@ CREATE TABLE `comments` (
   `source` varchar(15) NOT NULL,
   `source_id` int(15) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `time` varchar(100) NOT NULL
+  `time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -84,11 +84,18 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `user_id`, `source`, `source_id`, `description`, `time`) VALUES
-(1, 27, 'post', 2, 'Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.', '11'),
-(2, 31, 'post', 4, 'scrambled it to make a type specimen book. It has survived not only five centuries, b', '12'),
-(3, 32, 'post', 4, 'maining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and m', '14'),
-(4, 33, 'answer', 1, 'JavaScript ES6 introduced Map implemented with hash table. Since hash table look up time is on average O(1), for random accessed data, Map seems to be a good choice for data storage.', '11'),
-(5, 34, 'answer', 2, ' I want to use a hash table because there may be \"holes\" in the maps and tiles may be created randomly in the middle of nowhere.', '13');
+(1, 27, 'post', 2, 'Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.', 0),
+(2, 31, 'post', 4, 'scrambled it to make a type specimen book. It has survived not only five centuries, b', 0),
+(3, 32, 'post', 4, 'maining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and m', 0),
+(4, 33, 'answer', 1, 'JavaScript ES6 introduced Map implemented with hash table. Since hash table look up time is on average O(1), for random accessed data, Map seems to be a good choice for data storage.', 0),
+(5, 34, 'answer', 2, ' I want to use a hash table because there may be \"holes\" in the maps and tiles may be created randomly in the middle of nowhere.', 0),
+(11, 28, 'post', 4, 'hello', 1549940006),
+(12, 28, 'post', 4, 'You answer is not hundred percent accurate', 1549941443),
+(13, 28, 'post', 4, 'This post on 9.54', 1549943654),
+(14, 28, 'post', 4, 'This post on 10.09', 1549944594),
+(15, 28, 'post', 4, 'This post on 10.09 new', 1549944602),
+(17, 28, 'post', 4, 'Just insert the data to the database through ajax', 1549944725),
+(18, 28, 'post', 4, 'Insert the data on 10.14', 1549944901);
 
 -- --------------------------------------------------------
 
@@ -197,7 +204,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `posts`

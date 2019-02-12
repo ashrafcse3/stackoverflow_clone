@@ -49,7 +49,7 @@
               asked 1 hour ago
             </div>
             <div class="user-picture">
-              Pic
+              <img src="<?php echo BASE_URL; ?>/assets/images/user.png" alt="User" width="32" height="32">
             </div>
             <div class="user-details">
               <?php echo $post[0]['user_name']; ?>
@@ -70,15 +70,25 @@
           </div>
         </div>
         <div class="post-comment-box">
-          <form action="">
+          <form id="add-comment-to-post-form" action="<?php echo BASE_URL; ?>/PostController/addCommentFromPost" method="POST">
             <div class="form-group">
               <div class="row">
-                <div class="col-md-10">
-                  <textarea class="form-control" name="post-comment-box" id="post-comment-box"  placeholder="Write a comment" rows=1 required></textarea>
+                <div class="col-md-1">
+                </div>
+                <?php if(isset($_SESSION['ownUserData']) || isset($_SESSION['access_token'])) { 
+                  echo '
+                <div class="col-md-9">
+                  <input class="form-control" name="post-comment-box" id="post-comment-box"  placeholder="Write a comment" rows=1 required></input>
+                  <input type="hidden" id="postid" name="postid" value="'.$_GET['id'].'">
                 </div>
                 <div class="col-md-2">
-                  <button type="submit" name="add-comment-submit" class="btn btn-primary">Add comment</button>
-                </div>
+                  <button type="button" name="add-post-comment-submit" id="add-post-comment-submit" class="btn btn-primary">Add comment</button>
+                </div>';
+                } else {
+                  echo '<div class="col-md-11 post-menu">
+                      <a href="#">add a comment</a>
+                    </div>';
+                } ?>
               </div>
             </div>
           </form>
@@ -101,7 +111,7 @@
                 asked 1 hour ago
               </div>
               <div class="user-picture">
-                Pic
+                <img src="<?php echo BASE_URL; ?>/assets/images/user.png" alt="User" width="32" height="32">
               </div>
               <div class="user-details">
                 <?php echo $answer['name']; ?>
@@ -127,12 +137,20 @@
             <form action="">
               <div class="form-group">
                 <div class="row">
-                  <div class="col-md-10">
-                    <textarea class="form-control" name="post-comment-box"  id="post-comment-box"  placeholder="Write a comment" rows=1  required></textarea>
-                  </div>
-                  <div class="col-md-2">
-                    <button type="submit" name="add-comment-submit" class="btn  btn-primary">Add comment</button>
-                  </div>
+                  <div class="col-md-1"></div>
+                  <?php if(isset($_SESSION['ownUserData']) || isset($_SESSION['access_token'])) { 
+                  echo '
+                <div class="col-md-9">
+                  <textarea class="form-control" name="post-comment-box" id="post-comment-box"  placeholder="Write a comment" rows=1 required></textarea>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" name="add-comment-submit" class="btn btn-primary">Add comment</button>
+                </div>';
+                } else {
+                  echo '<div class="col-md-11 post-menu">
+                      <a href="#">add a comment</a>
+                    </div>';
+                } ?>
                 </div>
               </div>
             </form>
@@ -142,14 +160,21 @@
       </div>
       <div class="your-answer">
         <h2 class="your-answer-subheader">Your answer</h2>
-        <div class="post-comment-box">
-          <form action="">
-            <div class="form-group">
-              <textarea class="form-control" name="answer-box" id="answer-box" rows=4 required></textarea>
-              <button type="submit" name="answer-submit" class="btn btn-primary">Post your answer</button>
-            </div>
-          </form>
-        </div>
+        <?php if(isset($_SESSION['ownUserData']) || isset($_SESSION['access_token'])) { 
+          echo '
+            <div class="post-comment-box">
+              <form action="">
+                <div class="form-group">
+                  <textarea class="form-control" name="answer-box"    id="answer-box" rows=4 required></textarea>
+                  <button type="submit" name="answer-submit" class="btn     btn-primary">Post your answer</button>
+                </div>
+              </form>
+            </div>';
+        } else {
+          echo '<div class="post-menu mb-5">
+                  <a href="#">add your answer</a>
+                </div>';
+        } ?>
       </div>
     </div>
     <div class="col-md-4">
@@ -157,3 +182,31 @@
     </div>
   </div>
 </div>
+
+<script>
+  function addPostComment() {
+    console.log('addPostComment called');postCommentButton.innerText = 'hello';
+    var postCommentForm = document.getElementById("add-comment-to-post-form");
+    var action = postCommentForm.getAttribute("action");
+
+    // gather form data
+    var form_data = new FormData(postCommentForm);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', action, true);
+    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onreadystatechange = function () {
+      if(xhr.readyState == 4 && xhr.status == 200) {
+        var result = xhr.responseText;
+        console.log('Result: ' + result);
+      }
+    };
+    xhr.send(form_data);
+  }
+
+  var postCommentButton = document.getElementById("add-post-comment-submit");
+  
+  postCommentButton.addEventListener("click", addPostComment);
+
+</script>

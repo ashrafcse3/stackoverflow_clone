@@ -23,7 +23,7 @@
     }
 
     public function getPostCommentData($comment_table, $user_table, $cond) {
-      $sql = "SELECT $user_table.name AS user_name, $comment_table.description,   $comment_table.time 
+      $sql = "SELECT $user_table.name AS user_name, $comment_table.description, $comment_table.time 
         FROM $comment_table
         INNER JOIN $user_table ON $comment_table.user_id = $user_table.id
         WHERE $cond";
@@ -34,7 +34,7 @@
       $sql = "SELECT $user_table.name AS user_name, $answer_table.id AS answer_id, $comment_table.description, $comment_table.time 
         FROM $comment_table
         INNER JOIN $user_table ON $comment_table.user_id = $user_table.id
-        INNER JOIN $answer_table ON $comment_table.source_id = $answer_table.id
+        INNER JOIN $answer_table ON $comment_table.answer_id = $answer_table.id
         WHERE $cond";
     return $this->db->selectUserData($sql);  
     }

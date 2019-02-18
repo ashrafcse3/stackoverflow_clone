@@ -23,20 +23,23 @@
         $post_table = 'posts';
         $user_table = 'users';
         $category_table = 'categories';
-        $comment_table = 'comments';
+        $post_comment_table = 'post_comments';
+        $answer_comment_table = 'answer_comments';
         $answer_table = 'answers';
+
         $post_comments = 'post';
         $answer_comments = 'answer';
+
         $postModel = $this->load->model('PostModel');
 
         $cond = "$post_table.id = $id";
         $data['post'] = $postModel->getPostData($post_table, $user_table,   $category_table, $cond);
         
-        $postCommentCond = "$comment_table.source = '$post_comments' AND $comment_table.source_id = $id";
-        $data['postcomments'] = $postModel->getPostCommentData($comment_table, $user_table, $postCommentCond);
+        $postCommentCond = "$post_comment_table.post_id = $id";
+        $data['postcomments'] = $postModel->getPostCommentData($post_comment_table, $user_table, $postCommentCond);
 
-        $answerCommentCond = "$comment_table.source = '$answer_comments' AND $answer_table.post_id = $id";
-        $data['answercomments'] = $postModel->getAnswerCommentData($comment_table, $user_table, $answer_table, $answerCommentCond);
+        $answerCommentCond = "$answer_table.post_id = $id";
+        $data['answercomments'] = $postModel->getAnswerCommentData($answer_comment_table, $user_table, $answer_table, $answerCommentCond);
 
         $answerCond = "$answer_table.post_id = $id";
         $data['answers'] = $postModel->getAnswerData($answer_table, $user_table, $answerCond);
@@ -119,13 +122,12 @@
       }
     }
 
-    public function addCommentFromPost() {
+    public function addCommentFromPostToCommentsTable() {
       $user_id = $_SESSION['ownUserData'][0]['id'];
       $source = 'post';
       $source_id = isset($_POST['postid']) ? $_POST['postid'] : NULL;
       $comment = isset($_POST['post-comment-box']) ? $_POST['post-comment-box'] : NULL;
       $time = time();
-      echo $time;
       $error = [];
       $mdata = [];
       $comment_table = 'comments';
@@ -147,7 +149,7 @@
         if ($result == 1) {
           $mdata['msg'] ='Your comment is inserted.';
           $_SESSION['mdata'] = $mdata;
-          print_r($mdata);
+          print_r(json_encode($data));
           //header('Location: '.BASE_URL.'/PostController/index');
         }
         else {
@@ -158,7 +160,91 @@
       }
       else {
         $_SESSION['error'] = $error;
-        echo 'i am on error';
+        //header('Location: '.BASE_URL."/PostController/postDetails?id=$source_id");
+      }
+    }
+
+    public function addCommentToPost() {
+      $user_id = $_SESSION['ownUserData'][0]['id'];
+      $post_id = isset($_POST['postid']) ? $_POST['postid'] : NULL;
+      $comment = isset($_POST['post-comment-box']) ? $_POST['post-comment-box'] : NULL;
+      $time = time();
+      $error = [];
+      $mdata = [];
+      $user_table = 'users';
+      $comment_table = 'post_comments';
+      $postModel = $this->load->model('PostModel');
+
+      if (empty($comment)) {
+        $error[] = 'You have to write a comment.';
+      }
+
+      if (empty($error)) {
+        $data = array(
+          'user_id' => $user_id,
+          'post_id'   => $post_id,
+          'description' => $comment,
+          'time'    => $time
+        );
+        $result = $postModel->insert($comment_table, $data);
+        if ($result == 1) {
+          $postCommentCond = "$comment_table.post_id = $post_id AND $comment_table.time = $time";
+          $comment_data = $postModel->getPostCommentData($comment_table, $user_table, $postCommentCond);
+          
+          print_r(json_encode($comment_data));
+          //header('Location: '.BASE_URL.'/PostController/index');
+        }
+        else {
+          $error[] = 'Your post is not inserted. Some problem has occurred.';
+          $_SESSION['error'] = $error;
+          //header('Location: '.BASE_URL.'/PostController/addPost');
+        }
+      }
+      else {
+        $_SESSION['error'] = $error;
+        //header('Location: '.BASE_URL."/PostController/postDetails?id=$source_id");
+      }
+    }
+
+    public function addCommentToAnswers() {
+      $user_id = $_SESSION['ownUserData'][0]['id'];
+      $answer_id = isset($_POST['answerid']) ? $_POST['answerid'] : NULL;
+      $comment = isset($_POST['answer-comment-box']) ? $_POST['answer-comment-box'] : NULL;
+      $time = time();
+      $error = [];
+      $mdata = [];
+      $user_table = 'users';
+      $answer_table = 'answers';
+      $comment_table = 'answer_comments';
+      $postModel = $this->load->model('PostModel');
+
+      if (empty($comment)) {
+        $error[] = 'You have to write a comment.';
+      }
+
+      if (empty($error)) {
+        $data = array(
+          'user_id' => $user_id,
+          'answer_id'   => $answer_id,
+          'description' => $comment,
+          'time'    => $time
+        );
+        $result = $postModel->insert($comment_table, $data);
+        if ($result == 1) {
+          $postCommentCond = "$comment_table.answer_id = $answer_id AND $comment_table.time = $time";
+          $comment_data = $postModel->getPostCommentData($comment_table, $user_table, $postCommentCond);
+
+          print_r(json_encode($comment_data));
+          //header('Location: '.BASE_URL.'/PostController/index');
+        }
+        else {
+          $error[] = 'Your post is not inserted. Some problem has occurred.';
+          $_SESSION['error'] = $error;
+          //header('Location: '.BASE_URL.'/PostController/addPost');
+        }
+      }
+      else {
+        $_SESSION['error'] = $error;
         //header('Location: '.BASE_URL."/PostController/postDetails?id=$source_id");
       }
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2019 at 05:16 AM
+-- Generation Time: Feb 18, 2019 at 07:58 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -46,6 +46,32 @@ INSERT INTO `answers` (`id`, `user_id`, `post_id`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `answer_comments`
+--
+
+CREATE TABLE `answer_comments` (
+  `id` int(15) NOT NULL,
+  `user_id` int(15) NOT NULL,
+  `answer_id` int(15) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `time` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `answer_comments`
+--
+
+INSERT INTO `answer_comments` (`id`, `user_id`, `answer_id`, `description`, `time`) VALUES
+(1, 27, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1550370086),
+(2, 28, 1, 'What are you doing guys. Are you having any fun?', 1550370086),
+(3, 32, 2, 'My name is nazmul. I am a pro level web developer.', 1550370086),
+(4, 28, 1, 'This is my first answer reply alhamdu lillah', 1550514419),
+(5, 28, 2, 'Alhamdu lillah', 1550515349),
+(6, 28, 1, 'hello', 1550515898);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -63,39 +89,6 @@ INSERT INTO `categories` (`id`, `cat_title`) VALUES
 (2, 'Artificial Intelligence'),
 (3, 'Language Learning'),
 (4, 'Travel');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `comments`
---
-
-CREATE TABLE `comments` (
-  `id` int(15) NOT NULL,
-  `user_id` int(15) NOT NULL,
-  `source` varchar(15) NOT NULL,
-  `source_id` int(15) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `time` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`id`, `user_id`, `source`, `source_id`, `description`, `time`) VALUES
-(1, 27, 'post', 2, 'Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.', 0),
-(2, 31, 'post', 4, 'scrambled it to make a type specimen book. It has survived not only five centuries, b', 0),
-(3, 32, 'post', 4, 'maining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and m', 0),
-(4, 33, 'answer', 1, 'JavaScript ES6 introduced Map implemented with hash table. Since hash table look up time is on average O(1), for random accessed data, Map seems to be a good choice for data storage.', 0),
-(5, 34, 'answer', 2, ' I want to use a hash table because there may be \"holes\" in the maps and tiles may be created randomly in the middle of nowhere.', 0),
-(11, 28, 'post', 4, 'hello', 1549940006),
-(12, 28, 'post', 4, 'You answer is not hundred percent accurate', 1549941443),
-(13, 28, 'post', 4, 'This post on 9.54', 1549943654),
-(14, 28, 'post', 4, 'This post on 10.09', 1549944594),
-(15, 28, 'post', 4, 'This post on 10.09 new', 1549944602),
-(17, 28, 'post', 4, 'Just insert the data to the database through ajax', 1549944725),
-(18, 28, 'post', 4, 'Insert the data on 10.14', 1549944901);
 
 -- --------------------------------------------------------
 
@@ -120,6 +113,33 @@ INSERT INTO `posts` (`id`, `user_id`, `cat_id`, `title`, `description`) VALUES
 (2, 31, 2, 'Where can I get some?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
 (3, 32, 3, 'Where does it come from?', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with deskt'),
 (4, 28, 4, 'What is Lorem Ipsam?', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with deskt');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_comments`
+--
+
+CREATE TABLE `post_comments` (
+  `id` int(15) NOT NULL,
+  `user_id` int(15) NOT NULL,
+  `post_id` int(15) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `time` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `post_comments`
+--
+
+INSERT INTO `post_comments` (`id`, `user_id`, `post_id`, `description`, `time`) VALUES
+(17, 28, 4, 'Alhamdulillah', 1550510629),
+(18, 28, 4, 'Alhamdulillah! Finally did it.', 1550510649),
+(19, 28, 4, 'hi niloy', 1550510695),
+(20, 28, 4, 'ashraf', 1550511302),
+(21, 28, 4, 'ashraf â€“', 1550511384),
+(22, 28, 4, 'last try in sha allah for this post comment', 1550512001),
+(23, 28, 4, 'Alhamdulillah', 1550512066);
 
 -- --------------------------------------------------------
 
@@ -161,21 +181,27 @@ ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `answer_comments`
+--
+ALTER TABLE `answer_comments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `comments`
---
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `post_comments`
+--
+ALTER TABLE `post_comments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -195,22 +221,28 @@ ALTER TABLE `answers`
   MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `answer_comments`
+--
+ALTER TABLE `answer_comments`
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `comments`
---
-ALTER TABLE `comments`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
   MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `post_comments`
+--
+ALTER TABLE `post_comments`
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `users`

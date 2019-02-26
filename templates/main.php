@@ -8,5 +8,3 @@
 
     <?php include('templates/partials/_js.php'); ?>
   
-</body>
-</html>

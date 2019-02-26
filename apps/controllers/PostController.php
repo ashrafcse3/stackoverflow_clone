@@ -248,4 +248,45 @@
         //header('Location: '.BASE_URL."/PostController/postDetails?id=$source_id");
       }
     }
+
+    public function addAnswerToPost() {
+      $user_id = $_SESSION['ownUserData'][0]['id'];
+      $post_id = isset($_POST['postid']) ? $_POST['postid'] : NULL;
+      $description = isset($_POST['answer-box']) ? $_POST['answer-box'] : NULL;
+      $time = time();
+      $error = [];
+      $user_table = 'users';
+      $answer_table = 'answers';
+      $postModel = $this->load->model('PostModel');
+
+      if (empty($description)) {
+        $error[] = 'You have to write an answer.';
+      }
+
+      if (empty($error)) {
+        $data = array(
+          'user_id' => $user_id,
+          'post_id'   => $post_id,
+          'description' => $description,
+          'time'    => $time
+        );
+        $result = $postModel->insert($answer_table, $data);
+        if ($result == 1) {
+          $answerCond = "$answer_table.post_id = $post_id AND $answer_table.time = $time";
+          $answer_data = $postModel->getAnswerData($answer_table, $user_table, $answerCond);
+          
+          print_r(json_encode($answer_data));
+          //header('Location: '.BASE_URL.'/PostController/index');
+        }
+        else {
+          $error[] = 'Your post is not inserted. Some problem has occurred.';
+          $_SESSION['error'] = $error;
+          //header('Location: '.BASE_URL.'/PostController/addPost');
+        }
+      }
+      else {
+        $_SESSION['error'] = $error;
+        //header('Location: '.BASE_URL."/PostController/postDetails?id=$source_id");
+      }
+    }
   }

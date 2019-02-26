@@ -43,7 +43,7 @@
           <?php if(isset($_SESSION['ownUserData']) || isset($_SESSION['access_token'])) { 
             echo '
           <div class="col-md-9">
-            <input class="form-control" name="post-comment-box" id="post-comment-box"  placeholder="Write a comment" rows=1 required></input>
+            <textarea class="form-control" name="post-comment-box" id="post-comment-box"  placeholder="Write a comment" rows=1 required></textarea>
             <input type="hidden" id="postid" name="postid" value="'.$_GET['id'].'">
           </div>
           <div class="col-md-2">
